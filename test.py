@@ -1,11 +1,11 @@
 import cv2
 import mediapipe as mp
 
-video = cv2.VideoCapture("pedra-papel-tesoura.mp4") ### suport video mp4. .avi  .mkv
-# video = cv2.VideoCapture(0)
+# video = cv2.VideoCapture("pedra-papel-tesoura.mp4") ### suport video mp4. .avi  .mkv
+video = cv2.VideoCapture(0)
 
 hand = mp.solutions.hands
-Hand = hand.Hands(max_num_hands=2)
+Hand = hand.Hands(max_num_hands=1, model_complexity=0)
 mpDraw = mp.solutions.drawing_utils
 
 while True:
@@ -20,17 +20,25 @@ while True:
     results = Hand.process(imgRGB)
     handsPoints = results.multi_hand_landmarks
     h, w,_ = img.shape
-
+    pontos  = []
     if handsPoints:
         for points in handsPoints:
-            print(points)
+            # print(points)
             mpDraw.draw_landmarks(img, points, hand.HAND_CONNECTIONS)
             for id, cord in enumerate(points.landmark):
                 # convertendo pontos em pixels e encontrando ele na imagem gerada pela web can
                 cx,cy = int(cord.x * w), int(cord.y * h)
-                cv2.putText(img, str(id), (cx, cy+15), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255,0,0), 2)
+                # cv2.putText(img, str(id), (cx, cy+15), cv2.FONT_HERSHEY_COMPLEX, 0.5, (255,0,0), 2)
+                pontos.append((cx,cy))
 
+        dedos = [8,12,16,20]
+        contador =0
+        if points:
+            for x in dedos:
+                if pontos[x][1] < pontos[x-2][1]:
+                    contador +=1
 
+        print(contador)
 
     cv2.imshow("Video", cv2.resize(img ,(1000, 600)))
 
