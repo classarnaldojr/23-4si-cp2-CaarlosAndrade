@@ -1,7 +1,20 @@
 import cv2
 import mediapipe as mp
 import constants
-import math
+
+# instanciando variaveis
+mp_drawing = mp.solutions.drawing_utils
+mp_drawing_styles = mp.solutions.drawing_styles
+mp_hands = mp.solutions.hands
+hands = mp_hands.Hands(
+    model_complexity=0, 
+    min_detection_confidence=0.3, 
+    min_tracking_confidence=0.3,
+    max_num_hands=2
+)
+
+move_player_1 = ""
+move_player_2 = ""
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 font_scale = 1
@@ -34,19 +47,7 @@ def setMatchWinner(move_player_1, move_player_2):
     else:
         return "Jogador 2"
   
-# instanciando variaveis
-mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
-mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(
-    model_complexity=0, 
-    min_detection_confidence=0.3, 
-    min_tracking_confidence=0.3,
-    max_num_hands=2
-)
 
-move_player_1 = ""
-move_player_2 = ""
 
 # capturando video do desafio
 video_capture = cv2.VideoCapture("pedra-papel-tesoura.mp4")
