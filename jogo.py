@@ -90,34 +90,30 @@ while video_capture.isOpened():
                 move_player_2 = setMove(constants.RIGHT, player_2_hand_landmark)                
                 cv2.putText(video, "Jogador 2", (w-200,70), font, font_scale, (0,0,0), 2, cv2.LINE_AA)
                 cv2.putText(video, move_player_2, (w-200,100), font, font_scale, (0,0,0), 2, cv2.LINE_AA)    
+        if move_player_2 and move_player_1:
+            if (move_player_1 != first_player_gesture or move_player_2 != second_player_gesture):
 
-        if (move_player_1 != first_player_gesture or move_player_2 != second_player_gesture and (move_player_1 == None and move_player_2 == None)):
-            # pega o gesto da mao da esquerda
-            first_player_gesture = move_player_1
-            # pega o gesto da mao da direita
-            second_player_gesture = move_player_2
+                # pega o gesto da mao da esquerda
+                first_player_gesture = move_player_1
+                # pega o gesto da mao da direita
+                second_player_gesture = move_player_2
 
-            winning_player = setMatchWinner(
-                first_player_gesture, second_player_gesture)
+                winning_player = setMatchWinner(
+                    first_player_gesture, second_player_gesture)
 
-            if winning_player == 1:
-                scores[0] += 1
-            elif winning_player == 2:
-                scores[1] += 1
+                if winning_player == 1:
+                    scores[0] += 1
+                elif winning_player == 2:
+                    scores[1] += 1
 
-            score_text = f"{scores[0]} x {scores[1]}"   
-            round_result = "Empate!" if winning_player == 0 else f"Jogador {winning_player} venceu!"
-            print(f"{first_player_gesture} x {second_player_gesture} = {round_result} + {score_text}")
+                score_text = f"{scores[0]} x {scores[1]}"   
+                round_result = "Empate!" if winning_player == 0 else f"Jogador {winning_player} venceu!"
+                print(f"{first_player_gesture} x {second_player_gesture} = {round_result} + {score_text}")
                 
-        score_size, _ = cv2.getTextSize(score_text, font, 2, 5)
-        cv2.putText(video, score_text, [(video.shape[1] - score_size[0]) // 2, 100], font,
-            2, (50, 50, 50), 5)
-
-        
-
-            # winner = setMatchWinner(move_player_1, move_player_2)
-            # cv2.getTextSize(winner, font, fontScale=font_scale, thickness=1)[0]
-     
+            score_size, _ = cv2.getTextSize(score_text, font, 2, 5)
+            cv2.putText(video, score_text, [(video.shape[1] - score_size[0]) // 2, 100], font,
+                2, (50, 50, 50), 5)
+            
     cv2.imshow("Game - Rock, Paper, Scissors", video)
 
    # Esperar pela tecla 'q' para sair
