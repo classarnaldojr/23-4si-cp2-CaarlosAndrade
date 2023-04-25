@@ -47,12 +47,12 @@ def setMatchWinner(move_player_1, move_player_2):
         
         if move_player_1 == move_player_2:
             return 0
-        elif move_player_1 == "papel":
-            return 1 if move_player_2 == "pedra" else 2
-        elif move_player_1 == "pedra":
-            return 1 if move_player_2 == "tesoura" else 2
-        elif move_player_1 == "tesoura":
-            return 1 if move_player_2 == "papel" else 2
+        elif move_player_1 == constants.PAPEL:
+            return 1 if move_player_2 == constants.PEDRA else 2
+        elif move_player_1 == constants.PEDRA:
+            return 1 if move_player_2 == constants.TESOURA else 2
+        elif move_player_1 == constants.TESOURA:
+            return 1 if move_player_2 == constants.PAPEL else 2
 
 # capturando video do desafio
 video_capture = cv2.VideoCapture("pedra-papel-tesoura.mp4")
@@ -93,6 +93,7 @@ while video_capture.isOpened():
                 move_player_2 = setMove(constants.RIGHT, player_2_hand_landmark)                
                 cv2.putText(video, "Jogador 2", (w-200,70), font, font_scale, (0,0,0), thickness, cv2.LINE_AA)
                 cv2.putText(video, move_player_2, (w-200,100), font, font_scale, (0,0,0), thickness, cv2.LINE_AA)    
+                
         if (move_player_2 and move_player_1):
             if (move_player_1 != last_move_player_1 or move_player_2 != last_move_player_2):
                 # armazena utlimo movimento
